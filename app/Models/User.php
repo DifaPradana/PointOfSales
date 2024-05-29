@@ -16,7 +16,7 @@ class User extends Authenticatable
         'nama_user',
         'email',
         'password',
-        'is_confirmed',
+        'status',
         'alamat',
         'no_hp',
         'role',

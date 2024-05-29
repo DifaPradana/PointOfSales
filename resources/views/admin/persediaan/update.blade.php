@@ -17,6 +17,7 @@
                 <!-- Topbar -->
                 @include('partials.topbar')
                 <!-- End of Topbar -->
+                {{-- @dd($barang) --}}
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -33,45 +34,65 @@
                             <input type="text" class="form-control" id="nama_barang" name="nama_barang" required
                                 value="{{ $barang->nama_barang }}">
                         </div>
+                        <br>
                         <div>
-                            <label for="harga">Harga:</label>
-                            <input type="number" class="form-control" id="harga" name="harga" required
-                                value="{{ $barang->harga }}">
+                            <label for="harga_beli">Harga Beli:</label>
+                            <input type="number" class="form-control" id="harga_beli" name="harga_beli" required
+                                value="{{ $barang->harga_beli }}">
                         </div>
+                        <br>
+                        <div>
+                            <label for="harga_jual">Harga Jual:</label>
+                            <input type="number" class="form-control" id="harga_jual" name="harga_jual" required
+                                value="{{ $barang->harga_jual }}">
+                        </div>
+                        <br>
                         <div>
                             <label for="deskripsi">Deskripsi:</label>
                             <input type="text" id="deskripsi" class="form-control" name="deskripsi" required
                                 value="{{ $barang->deskripsi }}"></input>
                         </div>
+                        <br>
+                        <div>
+                            <label for="tipe">Tipe:</label>
+                            <input type="text" class="form-control" id="tipe" name="tipe" required
+                                value="{{ $barang->tipe }}">
+                        </div>
+                        <br>
                         <div>
                             <label for="stok">Stok:</label>
                             <input type="number" class="form-control" id="stok" name="stok" required
                                 value="{{ $barang->stok }}">
                         </div>
+                        <br>
                         <div>
-                            <label for="kategori">Kategori:</label>
-                            <select id="kategori" class="form-control" name="kategori" required>
-                                <option value="">Pilih Kategori</option>
-                                <option value="sandal" {{ $barang->kategori == 'sandal' ? 'selected' : '' }}>Sandal
-                                </option>
-                                <option value="sneakers" {{ $barang->kategori == 'sneakers' ? 'selected' : '' }}>
-                                    Sneakers</option>
+                            <label for="brand">Brand:</label>
+                            <select id="brand" class="form-control" name="kode_brand" required>
+                                <option value="">Pilih Brand</option>
+                                @foreach ($brand as $d)
+                                    <option value="{{ $d->kode_brand }}"
+                                        <?= $d->kode_brand == $barang->kode_brand ? 'selected' : '' ?>>
+                                        {{ $d->nama_brand }}
+                                    </option>
+                                @endforeach
                             </select>
                             @if ($errors->has('kategori'))
                                 <span class="text-danger">{{ $errors->first('kategori') }}</span>
                             @endif
                         </div>
-
+                        <br>
                         <div>
                             <label for="warna">Warna:</label>
                             <input type="text" class="form-control" id="warna" name="warna" required
                                 value="{{ $barang->warna }}">
                         </div>
+                        <br>
                         <div>
                             <label for="ukuran">Ukuran:</label>
                             <input type="text" class="form-control" id="ukuran" name="ukuran" required
                                 value="{{ $barang->ukuran }}">
                         </div>
+                        <br>
                         <div class="mt-3">
                             <label for="gambar">Gambar:</label>
                             @if (isset($barang->gambar))

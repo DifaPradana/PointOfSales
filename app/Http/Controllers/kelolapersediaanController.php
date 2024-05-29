@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\barang;
+use App\Models\Brand;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Validator;
@@ -12,8 +13,13 @@ class kelolapersediaanController extends Controller
 {
     public function index()
     {
+        $data = [
+            'barang' => barang::all(),
+            'brand' => Brand::all(),
+            'title' => 'List Barang'
+        ];
 
-        return view('admin.persediaan.input-barang');
+        return view('admin.persediaan.input-barang', $data);
     }
 
     //simpan data baru
@@ -22,10 +28,12 @@ class kelolapersediaanController extends Controller
         // Validasi input
         $validasi = $request->validate([
             "nama_barang" => "required|string",
-            "harga" => "required|int",
+            "harga_beli" => "required|int",
+            "harga_jual" => "required|int",
             "deskripsi" => "required|string",
+            "tipe" => "required|string",
             "stok" => "required|int",
-            "kategori" => "required|string",
+            "kode_brand" => "required|int",
             "warna" => "required|string",
             "ukuran" => "required|int",
             "gambar" => "required|file|mimes:jpg,png",
@@ -65,14 +73,23 @@ class kelolapersediaanController extends Controller
     //mengarah ke tampil barang
     public function tabel()
     {
-        $barang = barang::all();
-        return view('admin.persediaan.table-barang', compact('barang'));
+        $data = [
+            'barang' => barang::all(),
+            'brand' => Brand::all(),
+            'title' => 'List Barang'
+        ];
+        return view('admin.persediaan.table-barang', $data);
     }
 
     public function indexupdate($id)
     {
-        $barang = barang::find($id);
-        return view('admin.persediaan.update', compact('barang'));
+        $data = [
+            'barang' => barang::find($id),
+            'brand' => Brand::all(),
+            'title' => 'List Barang'
+        ];
+
+        return view('admin.persediaan.update', $data);
     }
 
     public function update(Request $request, $id)
@@ -86,10 +103,12 @@ class kelolapersediaanController extends Controller
 
         $validasi = Validator::make($request->all(), [
             "nama_barang" => "required|string",
-            "harga" => "required|int",
+            "harga_beli" => "required|int",
+            "harga_jual" => "required|int",
             "deskripsi" => "required|string",
+            "tipe" => "required|string",
             "stok" => "required|int",
-            "kategori" => "required|string",
+            "kode_brand" => "required|int",
             "warna" => "required|string",
             "ukuran" => "required|int",
             "gambar" => "nullable|file|mimes:jpg,png",
@@ -101,10 +120,12 @@ class kelolapersediaanController extends Controller
 
         // Update barang properties
         $barang->nama_barang = $request->nama_barang;
-        $barang->harga = $request->harga;
+        $barang->harga_beli = $request->harga_beli;
+        $barang->harga_jual = $request->harga_jual;
         $barang->deskripsi = $request->deskripsi;
+        $barang->tipe = $request->tipe;
         $barang->stok = $request->stok;
-        $barang->kategori = $request->kategori;
+        $barang->kode_brand = $request->kode_brand;
         $barang->warna = $request->warna;
         $barang->ukuran = $request->ukuran;
 

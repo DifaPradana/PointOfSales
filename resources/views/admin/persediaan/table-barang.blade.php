@@ -31,6 +31,7 @@
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
                     </div>
+
                     <br>
                     <form method="POST" action="{{ route('admin.tambah-stok') }}">
                         @csrf
@@ -39,8 +40,8 @@
                             <select type="text" class="form-control" id="nama_barang" name="kode_barang" required
                                 value="">
                                 <option disabled selected value="">Pilih Barang</option>
-                                @foreach ($barang as $d)
-                                    <option value="{{ $d->kode_barang }}">{{ $d->nama_barang }} {{ $d->warna }}
+                                @foreach ($barang as $b)
+                                    <option value="{{ $b->kode_barang }}">{{ $b->nama_barang }} {{ $b->warna }}
                                     </option>
                                 @endforeach
                             </select>
@@ -62,14 +63,16 @@
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th>kode barang</th>
-                                        <th>nama barang</th>
-                                        <th>harga</th>
-                                        <th>deskripsi</th>
-                                        <th>stok</th>
-                                        <th>kategori</th>
-                                        <th>warna</th>
-                                        <th>ukuran</th>
+                                        <th>No</th>
+                                        <th>Nama Barang</th>
+                                        <th>Harga Beli</th>
+                                        <th>Harga Jual</th>
+                                        <th>Deskripsi</th>
+                                        <th>Tipe</th>
+                                        <th>Stok</th>
+                                        <th>Brand</th>
+                                        <th>Warna</th>
+                                        <th>Ukuran</th>
                                         <th>aksi</th>
                                     </tr>
                                 </thead>
@@ -78,10 +81,16 @@
                                         <tr>
                                             <td>{{ $barang->kode_barang }}</td>
                                             <td>{{ $barang->nama_barang }}</td>
-                                            <td>{{ $barang->harga }}</td>
+                                            <td>{{ $barang->harga_beli }}</td>
+                                            <td>{{ $barang->harga_jual }}</td>
                                             <td>{{ $barang->deskripsi }}</td>
+                                            <td>{{ $barang->tipe }}</td>
                                             <td>{{ $barang->stok }}</td>
-                                            <td>{{ $barang->kategori }}</td>
+                                            @foreach ($brand as $d)
+                                                @if ($d->kode_brand == $barang->kode_brand)
+                                                    <td>{{ $d->nama_brand }}</td>
+                                                @endif
+                                            @endforeach
                                             <td>{{ $barang->warna }}</td>
                                             <td>{{ $barang->ukuran }}</td>
                                             <td> <a href="{{ route('admin.view-barang-update', $barang->kode_barang) }}"

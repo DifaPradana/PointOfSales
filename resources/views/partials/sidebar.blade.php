@@ -38,8 +38,10 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Menu Persediaan:</h6>
+                        <a class="collapse-item" href="{{ route('admin.brand-view') }}">Table Data Brand</a>
                         <a class="collapse-item" href="{{ route('admin.input-barang') }}">Tambah Data Barang</a>
                         <a class="collapse-item" href="{{ route('admin.tabel-barang') }}">Table Data Barang</a>
+
                     </div>
                 </div>
             </li>

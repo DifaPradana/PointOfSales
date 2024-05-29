@@ -28,44 +28,75 @@
                             <label for="nama_barang">Nama Barang:</label>
                             <input type="text" class="form-control" id="nama_barang" name="nama_barang" required>
                         </div>
+                        <br>
                         <div>
-                            <label for="harga">Harga:</label>
-                            <input type="number" class="form-control" id="harga" name="harga" required>
+                            <label for="harga">Harga Beli:</label>
+                            <input type="number" class="form-control" id="harga_beli" name="harga_beli" required>
                         </div>
+                        <br>
+                        <div>
+                            <label for="harga">Harga Jual:</label>
+                            <input type="number" class="form-control" id="harga_jual" name="harga_jual" required>
+                        </div>
+                        <br>
                         <div>
                             <label for="deskripsi">Deskripsi:</label>
                             <textarea id="deskripsi" class="form-control" name="deskripsi" required></textarea>
                         </div>
+                        <br>
+                        <div>
+                            <label for="tipe">Tipe:</label>
+                            <input type="text" class="form-control" id="tipe" name="tipe" required>
+                        </div>
+                        <br>
                         <div>
                             <label for="stok">Stok:</label>
                             <input type="number" class="form-control" id="stok" name="stok" required>
                         </div>
+                        <br>
                         <div>
-                            <label for="kategori">Kategori:</label>
-                            <select id="kategori" class="form-control" name="kategori" required>
-                                <option value="">Pilih Kategori</option>
-                                <option value="sneakers">sandal</option>
-                                <option value="sneakers">sneakers</option>
+                            <label for="kode_brand">Brand:</label>
+                            <select id="kode_brand" class="form-control" name="kode_brand" required>
+                                <option value="">Pilih Brand</option>
+                                @foreach ($brand as $brand)
+                                    <option value="{{ $brand->kode_brand }}">{{ $brand->nama_brand }}</option>
+                                @endforeach
                             </select>
                         </div>
+                        <br>
                         <div>
                             <label for="warna">Warna:</label>
-                            <input type="text" class="form-control" id="warna" name="warna" required>
+                            <select id="warna" class="form-control" name="warna" required>
+                                <option value="">Pilih warna</option>
+                                <option value="merah">Merah</option>
+                                <option value="biru">Biru</option>
+                                <option value="kuning">Kuning</option>
+                                <option value="hijau">Hijau</option>
+                                <option value="ungu">Ungu</option>
+                                <option value="hitam">Hitam</option>
+                                <option value="putih">Putih</option>
+                                <option value="abu-abu">Abu-abu</option>
+                                <option value="coklat">Coklat</option>
+                                <option value="orange">Orange</option>
+                                <option value="pink">Pink</option>
+                            </select>
+                            </select>
                         </div>
+                        <br>
                         <div>
                             <label for="ukuran">Ukuran:</label>
-                            <input type="text" class="form-control" id="ukuran" name="ukuran" required>
+                            <input type="number" class="form-control" id="ukuran" name="ukuran" required>
                         </div>
+                        <br>
                         <div class="mt-3">
                             <label for="gambar">Gambar:</label>
                             <input type="file" id="gambar" name="gambar" accept="image/*" required>
                         </div>
+                        <br>
                         <div class="mt-3">
                             <img id="gambar-preview" src="#" alt="Preview Gambar"
                                 style="display: none; max-width: 200px;">
                         </div>
-
-
                         <br>
                         <div class="form-group ">
                             <button class="btn btn-primary" type="submit">Tambah Data</button>

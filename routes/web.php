@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BrandController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\laporanController;
 use App\Http\Controllers\checkoutController;
 use App\Http\Controllers\resellerController;
@@ -72,15 +74,22 @@ Route::group(['prefix' => 'admin', 'middleware' => 'checkAdmin', 'auth'], functi
     Route::get('/persediaan/input-barang', [kelolapersediaanController::class, 'index'])->name('admin.input-barang');
     route::post('/persediaan/input-barang', [kelolapersediaanController::class, 'store'])->name('admin.input-barang-store');
     route::get('/persediaan/tabel-barang', [kelolapersediaanController::class, 'tabel'])->name('admin.tabel-barang');
+
     route::post('/persediaan/tabel', [kelolapersediaanController::class, 'tambahStok'])->name('admin.tambah-stok');
     route::get('/persediaan/index/{id}', [kelolapersediaanController::class, 'indexupdate'])->name('admin.view-barang-update');
     route::put('/persediaan/index/{id}', [kelolapersediaanController::class, 'update'])->name('admin.barang-update');
     route::delete('/persediaan/index/{id}', [kelolapersediaanController::class, 'destroy'])->name('admin.barang-delete');
 
+    route::get('/persediaan/brand', [BrandController::class, 'index'])->name('admin.brand-view');
+    route::post('/persediaan/brand', [BrandController::class, 'store'])->name('admin.brand-store');
+    route::put('/persediaan/brand/{id}', [BrandController::class, 'update'])->name('admin.brand-update');
+    route::delete('/persediaan/brand/{id}', [BrandController::class, 'destroy'])->name('admin.brand-delete');
+
     //RESSELER VERIFIKASI
     route::get('/reseller', [resellerController::class, 'index'])->name('admin.reseller-view');
     route::post('/reseller', [resellerController::class, 'store'])->name('admin.reseller-store');
-    route::put('/reseller/{id}', [resellerController::class, 'update_status'])->name('admin.reseller.update-status');
+    route::put('/reseller/{id}', [resellerController::class, 'updateStatus'])->name('admin.reseller.update-status');
+    route::delete('/reseller/{id}', [resellerController::class, 'destroy'])->name('admin.reseller-delete');
 });
 
 
@@ -90,14 +99,24 @@ Route::group(['prefix' => 'reseller', 'middleware' => 'checkReseller', 'auth'], 
     //DASHBOARD
     Route::get('/dashboard', [DashboardController::class, 'reseller'])->name('reseller.dashboard');
 
-    //CHECKOUT
-    Route::get('/checkout', [resellercheckoutController::class, 'index'])->name('reseller.checkout');
-    Route::post('/checkout', [resellercheckoutController::class, 'store'])->name('reseller.checkout-store');
-    Route::get('/checkout/tabel', [resellercheckoutController::class, 'tabel'])->name('reseller.checkout-tabel');
-    Route::get('/checkout/tabel/{id}', [resellercheckoutController::class, 'show'])->name('reseller.checkout-show');
-    Route::put('/checkout/tabel/{id}', [resellercheckoutController::class, 'update'])->name('reseller.checkout-update');
-    Route::delete('/checkout/tabel/{id}', [resellercheckoutController::class, 'destroy'])->name('reseller.checkout-delete');
+    // //CHECKOUT
+    // Route::get('/checkout', [resellercheckoutController::class, 'index'])->name('reseller.checkout');
+    // Route::post('/checkout', [resellercheckoutController::class, 'store'])->name('reseller.checkout-store');
+    // Route::get('/checkout/tabel', [resellercheckoutController::class, 'tabel'])->name('reseller.checkout-tabel');
+    // Route::get('/checkout/tabel/{id}', [resellercheckoutController::class, 'show'])->name('reseller.checkout-show');
+    // Route::put('/checkout/tabel/{id}', [resellercheckoutController::class, 'update'])->name('reseller.checkout-update');
+    // Route::delete('/checkout/tabel/{id}', [resellercheckoutController::class, 'destroy'])->name('reseller.checkout-delete');
 
     //Menu Pesanan
     Route::get('/produk', [ResellerProdukController::class, 'index'])->name('reseller.produk');
+
+    //Cart
+    Route::get('/cart', [CartController::class, 'index'])->name('reseller.cart');
+    Route::post('/cart/{kode_barang}', [CartController::class, 'addToCart'])->name('reseller.cart-add');
+    Route::put('/cart/{no_detail}', [CartController::class, 'update'])->name('reseller.cart-update');
+    Route::delete('/cart/{no_detail}', [CartController::class, 'deleteFromCart'])->name('reseller.cart-delete');
+
+    //Checkout
+    Route::get('/checkout/{id}', [checkoutController::class, 'index'])->name('checkout-view');
+    Route::put('/checkout/{id}', [checkoutController::class, 'update'])->name('checkout');
 });

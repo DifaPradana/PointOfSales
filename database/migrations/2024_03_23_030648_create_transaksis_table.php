@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('transaksi', function (Blueprint $table) {
             $table->id("kode_transaksi");
-            $table->string("nama_pengirim");
-            $table->string("alamat_pengirim");
-            $table->date("tanggal_transaksi");
-            $table->integer("total_bayar");
-            $table->enum("ekspedisi",["jnt","jne","lion_parcel"]);
-            $table->string("alamat_penerima");
-            $table->string("nama_penerima");
-
+            $table->string("nama_pengirim")->default("Warrior Footwear");
+            $table->string("alamat_pengirim")->default("Jl. Raya Kedungwuni KM 5, Kec. Kedungwuni, Kab. Pekalongan, Jawa Tengah");
+            $table->enum("ekspedisi", ["jnt", "jne", "lion_parcel"])->nullable();
+            $table->string("alamat_penerima")->nullable();
+            $table->string("nama_penerima")->nullable();
+            $table->integer('harga_ongkir')->nullable();
+            $table->integer("total_bayar")->nullable();
+            $table->boolean("is_checkout")->default(false);
             $table->timestamps();
         });
     }

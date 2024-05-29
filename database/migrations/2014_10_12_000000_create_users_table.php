@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nama_user');
             $table->string('email')->unique();
             $table->string('password');
-            $table->boolean('is_confirmed')->default(false);
+            $table->enum('status', ['Aktif', 'Menunggu Konfirmasi', 'Banned'])->default('Menunggu Konfirmasi');
             $table->string('alamat');
             $table->string('no_hp');
             $table->enum('role', ['reseller', 'admin'])->default('reseller');

@@ -14,10 +14,13 @@ return new class extends Migration
         Schema::create('barang', function (Blueprint $table) {
             $table->id("kode_barang");
             $table->string("nama_barang");
-            $table->integer("harga");
+            $table->integer("harga_beli");
+            $table->integer("harga_jual");
             $table->string("deskripsi");
+            $table->string("tipe");
             $table->integer("stok");
-            $table->string("kategori");
+            $table->unsignedBigInteger("kode_brand");
+            $table->foreign("kode_brand")->references("kode_brand")->on("brand")->onDelete("cascade");
             $table->string("warna");
             $table->integer("ukuran");
             $table->string("gambar");

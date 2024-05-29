@@ -14,7 +14,7 @@ class DashboardController extends Controller
         $data = array(
             'title' => 'Admin Dashboard',
             'barang' => barang::all(),
-            'reseller' => User::where('role', 'reseller')->where('is_confirmed', false)->get()
+            'reseller' => User::where('role', 'reseller')->where('status', 'Aktif')->get()
         );
         return view('admin.dashboard', $data);
     }

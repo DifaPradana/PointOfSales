@@ -11,6 +11,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\kelolapesananController;
 use App\Http\Controllers\kelolaresellerController;
 use App\Http\Controllers\kelolapersediaanController;
+use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\resellercheckoutController;
 use App\Http\Controllers\ResellerProdukController;
 
@@ -92,23 +93,14 @@ Route::group(['prefix' => 'admin', 'middleware' => 'checkAdmin', 'auth'], functi
     route::delete('/reseller/{id}', [resellerController::class, 'destroy'])->name('admin.reseller-delete');
 });
 
-
+Route::group(['prefix' => 'reseller', 'middleware' => 'auth', 'checkReseller'], function () {
+    Route::get('/produk', [ResellerProdukController::class, 'index'])->name('reseller.produk');
+});
 //ResellerRoute
-Route::group(['prefix' => 'reseller', 'middleware' => 'checkReseller', 'auth'], function () {
+Route::group(['prefix' => 'reseller', 'middleware' => 'checkStatus', 'auth', 'checkReseller',], function () {
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
     //DASHBOARD
     Route::get('/dashboard', [DashboardController::class, 'reseller'])->name('reseller.dashboard');
-
-    // //CHECKOUT
-    // Route::get('/checkout', [resellercheckoutController::class, 'index'])->name('reseller.checkout');
-    // Route::post('/checkout', [resellercheckoutController::class, 'store'])->name('reseller.checkout-store');
-    // Route::get('/checkout/tabel', [resellercheckoutController::class, 'tabel'])->name('reseller.checkout-tabel');
-    // Route::get('/checkout/tabel/{id}', [resellercheckoutController::class, 'show'])->name('reseller.checkout-show');
-    // Route::put('/checkout/tabel/{id}', [resellercheckoutController::class, 'update'])->name('reseller.checkout-update');
-    // Route::delete('/checkout/tabel/{id}', [resellercheckoutController::class, 'destroy'])->name('reseller.checkout-delete');
-
-    //Menu Pesanan
-    Route::get('/produk', [ResellerProdukController::class, 'index'])->name('reseller.produk');
 
     //Cart
     Route::get('/cart', [CartController::class, 'index'])->name('reseller.cart');
@@ -119,4 +111,9 @@ Route::group(['prefix' => 'reseller', 'middleware' => 'checkReseller', 'auth'], 
     //Checkout
     Route::get('/checkout/{id}', [checkoutController::class, 'index'])->name('checkout-view');
     Route::put('/checkout/{id}', [checkoutController::class, 'update'])->name('checkout');
+
+    //Pembelian
+    Route::get('/pembelian', [PembelianController::class, 'index'])->name('reseller.pembelian');
+    Route::get('/pembelian/{id}', [PembelianController::class, 'detail'])->name('reseller.pembelian.detail');
+    Route::post('/pembelian/{id}', [PembelianController::class, 'uploadBuktiBayar'])->name('reseller.pembelian.store');
 });

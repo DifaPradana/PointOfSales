@@ -52,6 +52,12 @@
                     <span>Reseller Settings</span></a>
             </li>
 
+            {{-- <li class="nav-item">
+                <a class="nav-link" href="{{ route('admin.pesanan-view') }}">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>Pesanan</span></a>
+            </li> --}}
+
             <!-- Nav Item - Utilities Collapse Menu -->
             {{-- <li class="nav-item">
                 <a class="nav-link" href="{{ route('reseller.dashboard') }}">
@@ -91,7 +97,7 @@
             <hr class="sidebar-divider">
 
             <!-- Heading -->
-            <div class="sidebar-heading">
+            {{-- <div class="sidebar-heading">
                 Addons
             </div>
 
@@ -103,7 +109,7 @@
                 <a class="nav-link" href="charts.html">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Charts</span></a>
-            </li>
+            </li> --}}
 
             <!-- Nav Item - Tables -->
             {{-- <li class="nav-item">

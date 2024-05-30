@@ -21,6 +21,8 @@ return new class extends Migration
             $table->integer('harga_ongkir')->nullable();
             $table->integer("total_bayar")->nullable();
             $table->boolean("is_checkout")->default(false);
+            $table->enum("status", ["Menunggu Pembayaran", "Menunggu Verifikasi", "Pesanan Diproses"])->default("Menunggu Pembayaran");
+            $table->string("bukti_bayar")->nullable();
             $table->timestamps();
         });
     }

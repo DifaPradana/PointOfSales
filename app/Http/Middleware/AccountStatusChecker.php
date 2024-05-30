@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use Symfony\Component\HttpFoundation\Response;
 
-class AdminChecker
+class AccountStatusChecker
 {
     /**
      * Handle an incoming request.
@@ -17,10 +17,13 @@ class AdminChecker
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->role == 'admin') {
-            return $next($request);
+        // Periksa apakah pengguna sudah login dan status akun adalah "aktif"
+        if (Auth::check() && Auth::user()->status !== 'Aktif') {
+            // Redirect pengguna ke halaman tertentu dengan pesan error
+            Alert::error('Error', 'Akun Anda tidak aktif. Silakan hubungi admin untuk informasi lebih lanjut.');
+            return redirect()->route('reseller.produk');
         }
-        Alert::error('Error', 'Kamu ga punya hak akses!!!');
-        return redirect()->route('reseller.dashboard');
+
+        return $next($request);
     }
 }

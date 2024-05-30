@@ -3,7 +3,7 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center"
-                href="{{ route('admin.dashboard') }}">
+                href="{{ route('reseller.dashboard') }}">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -15,7 +15,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('admin.dashboard') }}">
+                <a class="nav-link" href="{{ route('reseller.dashboard') }}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -29,7 +29,7 @@
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
@@ -44,12 +44,24 @@
 
                     </div>
                 </div>
+            </li> --}}
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('reseller.produk') }}">
+                    <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+                    <span>List Produk</span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('admin.reseller-view') }}">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Reseller Settings</span></a>
+                <a class="nav-link" href="{{ route('reseller.cart') }}">
+                    <i class="fa fa-cart-plus" aria-hidden="true"></i>
+                    <span>Cart</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('reseller.pembelian') }}">
+                    <i class="fa fa-list" aria-hidden="true"></i>
+                    <span>Pembelian</span></a>
             </li>
 
             <!-- Nav Item - Utilities Collapse Menu -->

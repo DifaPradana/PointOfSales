@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ResellerController extends Controller
 {
@@ -45,12 +46,14 @@ class ResellerController extends Controller
         $reseller->status = $request->status;
         $reseller->save();
 
-        return redirect()->route('admin.reseller-view')->with('success', 'Reseller Status Updated Successfully');
+        Alert::success('Success', 'Reseller Status Updated Successfully');
+        return redirect()->route('admin.reseller-view');
     }
 
     public function destroy($id)
     {
         User::destroy($id);
-        return redirect()->route('admin.reseller-view')->with('success', 'Reseller Deleted Successfully');
+        Alert::success('Success', 'Reseller Deleted Successfully');
+        return redirect()->route('admin.reseller-view');
     }
 }

@@ -19,7 +19,9 @@ class transaksi extends Model
         'alamat_penerima',
         'nama_penerima',
         'harga_ongkir',
-        'total_bayar'
+        'total_bayar',
+        'status',
+        'bukti_bayar',
     ];
 
     public function detail_transaksi()

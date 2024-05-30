@@ -12,6 +12,7 @@ use App\Http\Controllers\kelolapesananController;
 use App\Http\Controllers\kelolaresellerController;
 use App\Http\Controllers\kelolapersediaanController;
 use App\Http\Controllers\PembelianController;
+use App\Http\Controllers\PesananController;
 use App\Http\Controllers\resellercheckoutController;
 use App\Http\Controllers\ResellerProdukController;
 
@@ -91,6 +92,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'checkAdmin', 'auth'], functi
     route::post('/reseller', [resellerController::class, 'store'])->name('admin.reseller-store');
     route::put('/reseller/{id}', [resellerController::class, 'updateStatus'])->name('admin.reseller.update-status');
     route::delete('/reseller/{id}', [resellerController::class, 'destroy'])->name('admin.reseller-delete');
+
+    //PESANAN
+    Route::get('/pesanan', [PesananController::class, 'index'])->name('admin.pesanan');
+    Route::get('/pesanan/{id}', [PesananController::class, 'detail'])->name('admin.pesanan.detail');
+    Route::put('/pesanan/{id}', [PesananController::class, 'update'])->name('admin.pesanan.update');
 });
 
 Route::group(['prefix' => 'reseller', 'middleware' => 'auth', 'checkReseller'], function () {

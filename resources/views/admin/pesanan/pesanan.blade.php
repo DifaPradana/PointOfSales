@@ -47,7 +47,8 @@
                                         @foreach ($transaksi as $transaksi)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $transaksi->updated_at }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($transaksi->updated_at)->format('d/m/Y') }}
+                                                </td>
                                                 <td>Rp.
                                                     {{ number_format($transaksi->total_bayar + $transaksi->harga_ongkir, 0, ',', '.') }}
                                                 </td>
@@ -68,50 +69,69 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    @if ($transaksi->status === 'Menunggu Pembayaran')
-                                                        <button type="button" data-toggle="modal"
-                                                            data-target="#editModal{{ $transaksi->kode_transaksi }}"
-                                                            class="btn btn-info block btn-sm">
-                                                            <i class="fa fa-upload" aria-hidden="true"></i>
+                                                    @if ($transaksi->bukti_bayar)
+                                                        <a href="{{ asset($transaksi->bukti_bayar) }}" target="_blank"
+                                                            class="btn btn-info block btn-sm"
+                                                            style="width: 40px; margin-bottom: 10px;">
+                                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                                        </a>
+                                                    @else
+                                                        <button type="button" class="btn btn-info block btn-sm"
+                                                            style="width: 40px; " disabled>
+                                                            <i class="fa fa-eye" aria-hidden="true"></i>
                                                         </button>
-                                                        <br>
-                                                        {{-- <form action="" method="POST" style="margin-top: 10px;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-danger block btn-sm">
-                                                                <i class="fa fa-trash" aria-hidden="true"></i>
-                                                            </button>
-                                                        </form> --}}
+                                                    @endif
+                                                    <br>
+                                                    <button type="button" data-toggle="modal"
+                                                        data-target="#editModal{{ $transaksi->kode_transaksi }}"
+                                                        style="width: 40px;" class="btn btn-primary block btn-sm">
+                                                        <i class='fa fa-edit' aria-hidden="true"></i>
+                                                    </button>
 
-                                                        <div class="modal fade"
-                                                            id="editModal{{ $transaksi->kode_transaksi }}"
-                                                            tabindex="-1" role="dialog"
-                                                            aria-labelledby="editModalLabel" aria-hidden="true">
-                                                            <div class="modal-dialog" role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header">
-                                                                        <h5 class="modal-title" id="editModalLabel">
-                                                                            Upload Bukti Pembayaran
-                                                                        </h5>
-                                                                    </div>
-                                                                    <form
-                                                                        action="{{ route('bukti_pembayaran.store', $transaksi->kode_transaksi) }}"
-                                                                        method="POST" enctype="multipart/form-data">
-                                                                        @csrf
-                                                                        <div class="modal-body">
-                                                                            <div class="form-group">
-                                                                                <label for="bukti_bayar">Upload Foto
-                                                                                    Bukti
-                                                                                    :</label>
-                                                                                <input type="file" id="bukti_bayar"
-                                                                                    name="bukti_bayar" accept="image/*"
-                                                                                    required>
+                                                    <form action="" method="POST" style="margin-top: 10px;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger block btn-sm"
+                                                            style="width: 40px;">
+                                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                                        </button>
+                                                    </form>
 
-                                                                                <img id="gambar-preview" src="#"
-                                                                                    alt="Preview Gambar"
-                                                                                    style="display: none; max-width: 400px;">
-                                                                            </div>
+                                                    <div class="modal fade"
+                                                        id="editModal{{ $transaksi->kode_transaksi }}" tabindex="-1"
+                                                        role="dialog" aria-labelledby="editModalLabel"
+                                                        aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="editModalLabel">Edit
+                                                                        {{ $title }}
+                                                                    </h5>
+
+                                                                </div>
+                                                                <form
+                                                                    action="{{ route('admin.pesanan.update', $transaksi->kode_transaksi) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('PUT')
+                                                                    <div class="modal-body">
+
+                                                                        <div class="form-group">
+                                                                            <label for="status">Status</label>
+                                                                            <select class="form-control" id="status"
+                                                                                name="status">
+                                                                                <option value="Menunggu Pembayaran"
+                                                                                    {{ $transaksi->status == 'Menunggu Pembayaran' ? 'selected' : '' }}>
+                                                                                    Menunggu Pembayaran</option>
+                                                                                <option value="Menunggu Verifikasi"
+                                                                                    {{ $transaksi->status == 'Menunggu Verifikasi' ? 'selected' : '' }}>
+                                                                                    Menunggu Verifikasi</option>
+                                                                                <option value="Pesanan Diproses"
+                                                                                    {{ $transaksi->status == 'Pesanan Diproses' ? 'selected' : '' }}>
+                                                                                    Pesanan Diproses</option>
+                                                                            </select>
                                                                         </div>
+
                                                                         <div class="modal-footer">
                                                                             <button type="button"
                                                                                 class="btn btn-secondary"
@@ -119,12 +139,13 @@
                                                                             <button type="submit"
                                                                                 class="btn btn-primary">Save
                                                                                 changes</button>
-                                                                    </form>
-                                                                </div>
+                                                                        </div>
+                                                                </form>
                                                             </div>
                                                         </div>
-                                                    @endif
+                                                    </div>
                                                 </td>
+
 
                                             </tr>
                                         @endforeach

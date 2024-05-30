@@ -38,7 +38,7 @@
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
-                                        <th>ID User</th>
+                                        <th>No</th>
                                         <th>Nama Reseller</th>
                                         <th>Alamat</th>
                                         <th>Status</th>
@@ -49,7 +49,7 @@
 
                                     <tr>
                                         @foreach ($reseller as $reseller)
-                                            <td>{{ $reseller->id_user }}</td>
+                                            <td>{{ $loop->iteration }}</td>
                                             <td>{{ $reseller->nama_user }}</td>
                                             <td>{{ $reseller->alamat }}</td>
                                             <td>

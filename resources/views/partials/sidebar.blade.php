@@ -52,11 +52,11 @@
                     <span>Reseller Settings</span></a>
             </li>
 
-            {{-- <li class="nav-item">
-                <a class="nav-link" href="{{ route('admin.pesanan-view') }}">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('admin.pesanan') }}">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Pesanan</span></a>
-            </li> --}}
+            </li>
 
             <!-- Nav Item - Utilities Collapse Menu -->
             {{-- <li class="nav-item">

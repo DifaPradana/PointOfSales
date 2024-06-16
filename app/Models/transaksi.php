@@ -22,10 +22,16 @@ class transaksi extends Model
         'total_bayar',
         'status',
         'bukti_bayar',
+        'id_user'
     ];
 
     public function detail_transaksi()
     {
         return $this->hasMany(detail_transaksi::class, 'kode_transaksi', 'kode_transaksi');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user', 'id_user');
     }
 }

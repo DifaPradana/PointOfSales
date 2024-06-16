@@ -9,22 +9,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class CartController extends Controller
+class KasirController extends Controller
 {
     public function index()
     {
-        $userId = Auth::id(); // Mendapatkan ID user yang sedang login
+        $userId = Auth::id();
 
-        // Ambil semua detail transaksi yang belum di-checkout dan milik user yang sedang login
         $cartItems = detail_transaksi::whereHas('transaksi', function ($query) use ($userId) {
             $query->where('is_checkout', false)
-                ->where('id_user', $userId); // Filter berdasarkan id_user
+                ->where('id_user', $userId);
         })->get();
 
-        // Hitung total harga dari semua item di keranjang
         $totalHarga = $cartItems->sum('subtotal');
 
-        // Data yang akan dikirim ke view
         $data = [
             'title' => 'List Cart',
             'cart' => $cartItems,
@@ -33,54 +30,23 @@ class CartController extends Controller
                 ->where('id_user', $userId) // Filter berdasarkan id_user
                 ->latest()
                 ->first(),
+            'barang' => barang::all()
         ];
 
-        return view('reseller.cart.cart', $data);
+        return view('admin.kasir.kasir', $data);
     }
 
-    public function update(Request $request, $no_detail)
+    public function addToCart(Request $request)
     {
-        $detail_transaksi = detail_transaksi::find($no_detail);
+        $userId = Auth::id(); // Mendapatkan ID user yang sedang login
 
-        if (!$detail_transaksi) {
-            return redirect()->back()->with('error', 'Detail transaksi tidak ditemukan.');
-        }
+        // Validasi input form
+        $request->validate([
+            'kode_barang' => 'required|exists:barang,kode_barang',
+        ]);
 
-        $transaksi = transaksi::find($detail_transaksi->kode_transaksi);
-
-        if (!$transaksi) {
-            return redirect()->back()->with('error', 'Transaksi tidak ditemukan.');
-        }
-
-        $barang = barang::find($detail_transaksi->kode_barang);
-
-        if (!$barang) {
-            return redirect()->back()->with('error', 'Barang tidak ditemukan.');
-        }
-
-        $detail_transaksi->kuantitas = $request->kuantitas;
-        $detail_transaksi->subtotal = $barang->harga_jual * (int)$request->kuantitas;
-        $detail_transaksi->save();
-
-        $transaksi->total_bayar = 0;
-
-        foreach ($transaksi->detail_transaksi as $detail) {
-            $transaksi->total_bayar += $detail->subtotal;
-        }
-
-        $transaksi->save();
-
-        Alert::success('Success', 'Kuantitas barang berhasil diubah.');
-
-        return redirect()->back();
-    }
-
-    public function addToCart(Request $request, $kode_barang)
-    {
-
-        $userId = Auth::id();
         // Cari barang berdasarkan kode_barang
-        $barang = Barang::find($kode_barang);
+        $barang = Barang::find($request->kode_barang);
 
         if (!$barang) {
             return redirect()->back()->with('error', 'Barang tidak ditemukan.');
@@ -132,47 +98,6 @@ class CartController extends Controller
         $transaksi->save();
 
         Alert::success('Success', 'Barang berhasil ditambahkan ke keranjang.');
-
-        return redirect()->back();
-    }
-
-
-    public function deleteFromCart($no_detail)
-    {
-        $detail_transaksi = detail_transaksi::find($no_detail);
-
-        if (!$detail_transaksi) {
-            return redirect()->back()->with('error', 'Detail transaksi tidak ditemukan.');
-        }
-
-        $transaksi = transaksi::find($detail_transaksi->kode_transaksi);
-
-        if (!$transaksi) {
-            return redirect()->back()->with('error', 'Transaksi tidak ditemukan.');
-        }
-
-        $transaksi->total_bayar -= $detail_transaksi->subtotal;
-        $transaksi->save();
-
-        $detail_transaksi->delete();
-
-        Alert::success('Success', 'Barang berhasil dihapus dari keranjang.');
-
-        return redirect()->back();
-    }
-
-    public function checkout()
-    {
-        $transaksi = transaksi::where('is_checkout', false)->latest()->first();
-
-        if (!$transaksi) {
-            return redirect()->back()->with('error', 'Transaksi tidak ditemukan.');
-        }
-
-        $transaksi->is_checkout = true;
-        $transaksi->save();
-
-        Alert::success('Success', 'Transaksi berhasil di checkout.');
 
         return redirect()->back();
     }

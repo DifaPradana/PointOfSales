@@ -30,19 +30,18 @@ class PesananController extends Controller
     public function update(Request $request, $id)
     {
         $transaksi = Transaksi::find($id);
-        $previousStatus = $transaksi->status;
         $transaksi->status = $request->status;
         $transaksi->save();
 
         // Check if the status is changed to "Pesanan Diproses"
-        if ($previousStatus != 'Pesanan Diproses' && $transaksi->status == 'Pesanan Diproses') {
-            // Assuming you have a relationship between Transaksi and Product
-            foreach ($transaksi->detail_transaksi as $detail) {
-                $barang = $detail->barang;
-                $barang->stok -= $detail->kuantitas; // Adjust the quantity field as needed
-                $barang->save();
-            }
-        }
+        // if ($previousStatus != 'Pesanan Diproses' && $transaksi->status == 'Pesanan Diproses') {
+        //     // Assuming you have a relationship between Transaksi and Product
+        //     foreach ($transaksi->detail_transaksi as $detail) {
+        //         $barang = $detail->barang;
+        //         $barang->stok -= $detail->kuantitas; // Adjust the quantity field as needed
+        //         $barang->save();
+        //     }
+        // }
 
         Alert::success('Berhasil', 'Status Pesanan Berhasil Diubah');
         return redirect()->back();

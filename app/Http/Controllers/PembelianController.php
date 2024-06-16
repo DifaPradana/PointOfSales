@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\bukti_pembayaran;
 use App\Models\transaksi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class PembelianController extends Controller
@@ -12,8 +13,11 @@ class PembelianController extends Controller
     public function index()
     {
         $data = [
+            $userId = Auth::id(),
             'title' => 'Pembelian',
-            'transaksi' => transaksi::where('is_checkout', 1)->get(),
+            'transaksi' => Transaksi::where('is_checkout', 1)
+                ->where('id_user', $userId) // Filter berdasarkan id_user
+                ->get(),
         ];
         return view('reseller.pembelian.pembelian', $data);
     }
@@ -91,6 +95,15 @@ class PembelianController extends Controller
         }
 
         Alert::error('Error', 'Gagal mengupload bukti bayar');
+        return redirect()->route('reseller.pembelian');
+    }
+
+    public function updateStatusDiterima($id)
+    {
+        $transaksi = transaksi::find($id);
+        $transaksi->status = 'Diterima';
+        $transaksi->save();
+
         return redirect()->route('reseller.pembelian');
     }
 

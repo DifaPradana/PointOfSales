@@ -60,10 +60,12 @@
                                                         <span class="badge badge-info">Menunggu Verifikasi</span>
                                                     @elseif($transaksi->status === 'Pesanan Diproses')
                                                         <span class="badge badge-primary">Pesanan Diproses</span>
-                                                    @elseif($transaksi->status === 'Pesanan Ditolak')
-                                                        <span class="badge badge-danger">Pesanan Ditolak</span>
+                                                    @elseif($transaksi->status === 'Pesanan Dibatalkan')
+                                                        <span class="badge badge-danger">Pesanan Dibatalkan</span>
                                                     @elseif($transaksi->status === 'Pesanan Dikirim')
-                                                        <span class="badge badge-success">Pesanan Ditolak</span>
+                                                        <span class="badge badge-info">Pesanan Dikirim</span>
+                                                    @elseif($transaksi->status === 'Diterima')
+                                                        <span class="badge badge-success">Diterima</span>
                                                     @else
                                                         <span class="badge badge-secondary">Status Tidak Dikenal</span>
                                                     @endif
@@ -77,7 +79,7 @@
                                                         </a>
                                                     @else
                                                         <button type="button" class="btn btn-info block btn-sm"
-                                                            style="width: 40px; " disabled>
+                                                            style="width: 40px; margin-bottom: 10px;" disabled>
                                                             <i class="fa fa-eye" aria-hidden="true"></i>
                                                         </button>
                                                     @endif
@@ -88,14 +90,16 @@
                                                         <i class='fa fa-edit' aria-hidden="true"></i>
                                                     </button>
 
-                                                    <form action="" method="POST" style="margin-top: 10px;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger block btn-sm"
-                                                            style="width: 40px;">
-                                                            <i class="fa fa-trash" aria-hidden="true"></i>
-                                                        </button>
-                                                    </form>
+                                                    @if ($transaksi->status !== 'Diterima')
+                                                        <form action="" method="POST" style="margin-top: 10px;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger block btn-sm"
+                                                                style="width: 40px;">
+                                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                                            </button>
+                                                        </form>
+                                                    @endif
 
                                                     <div class="modal fade"
                                                         id="editModal{{ $transaksi->kode_transaksi }}" tabindex="-1"
@@ -129,6 +133,15 @@
                                                                                 <option value="Pesanan Diproses"
                                                                                     {{ $transaksi->status == 'Pesanan Diproses' ? 'selected' : '' }}>
                                                                                     Pesanan Diproses</option>
+                                                                                <option value="Pesanan Dibatalkan"
+                                                                                    {{ $transaksi->status == 'Pesanan Dibatalkan' ? 'selected' : '' }}>
+                                                                                    Pesanan Dibatalkan</option>
+                                                                                <option value="Pesanan Dikirim"
+                                                                                    {{ $transaksi->status == 'Pesanan Dikirim' ? 'selected' : '' }}>
+                                                                                    Pesanan Dikirim</option>
+                                                                                <option value="Diterima"
+                                                                                    {{ $transaksi->status == 'Diterima' ? 'selected' : '' }}>
+                                                                                    Pesanan Diterima</option>
                                                                             </select>
                                                                         </div>
 
@@ -144,8 +157,8 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </td>
 
+                                                </td>
 
                                             </tr>
                                         @endforeach

@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('transaksi', function (Blueprint $table) {
             $table->id("kode_transaksi");
+            $table->unsignedBigInteger("id_user");
+            $table->foreign("id_user")->references("id_user")->on("users")->onDelete("cascade");
             $table->string("nama_pengirim")->default("Warrior Footwear");
             $table->string("alamat_pengirim")->default("Jl. Raya Kedungwuni KM 5, Kec. Kedungwuni, Kab. Pekalongan, Jawa Tengah");
             $table->enum("ekspedisi", ["jnt", "jne", "lion_parcel"])->nullable();
@@ -21,8 +23,10 @@ return new class extends Migration
             $table->integer('harga_ongkir')->nullable();
             $table->integer("total_bayar")->nullable();
             $table->boolean("is_checkout")->default(false);
-            $table->enum("status", ["Menunggu Pembayaran", "Menunggu Verifikasi", "Pesanan Diproses"])->default("Menunggu Pembayaran");
+            $table->enum("status", ["Menunggu Pembayaran", "Menunggu Verifikasi", "Pesanan Dibatalkan", "Pesanan Diproses", "Pesanan Dikirim", "Diterima"])->default("Menunggu Pembayaran");
             $table->string("bukti_bayar")->nullable();
+
+            //tambahin id_user
             $table->timestamps();
         });
     }

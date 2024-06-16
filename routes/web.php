@@ -8,6 +8,7 @@ use App\Http\Controllers\laporanController;
 use App\Http\Controllers\checkoutController;
 use App\Http\Controllers\resellerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KasirController;
 use App\Http\Controllers\kelolapesananController;
 use App\Http\Controllers\kelolaresellerController;
 use App\Http\Controllers\kelolapersediaanController;
@@ -97,6 +98,14 @@ Route::group(['prefix' => 'admin', 'middleware' => 'checkAdmin', 'auth'], functi
     Route::get('/pesanan', [PesananController::class, 'index'])->name('admin.pesanan');
     Route::get('/pesanan/{id}', [PesananController::class, 'detail'])->name('admin.pesanan.detail');
     Route::put('/pesanan/{id}', [PesananController::class, 'update'])->name('admin.pesanan.update');
+
+    //LAPORAN
+
+    //KASIR
+    Route::get('/kasir', [KasirController::class, 'index'])->name('admin.kasir');
+    Route::post('/kasir', [KasirController::class, 'addToCart'])->name('admin.cart-add');
+    Route::get('/checkout/{id}', [checkoutController::class, 'indexadmin'])->name('checkout-view-admin');
+    Route::put('/checkout/{id}', [checkoutController::class, 'updateAdmin'])->name('checkout-admin');
 });
 
 Route::group(['prefix' => 'reseller', 'middleware' => 'auth', 'checkReseller'], function () {
@@ -122,4 +131,5 @@ Route::group(['prefix' => 'reseller', 'middleware' => 'checkStatus', 'auth', 'ch
     Route::get('/pembelian', [PembelianController::class, 'index'])->name('reseller.pembelian');
     Route::get('/pembelian/{id}', [PembelianController::class, 'detail'])->name('reseller.pembelian.detail');
     Route::post('/pembelian/{id}', [PembelianController::class, 'uploadBuktiBayar'])->name('reseller.pembelian.store');
+    Route::put('/pembelian/{id}', [PembelianController::class, 'updateStatusDiterima'])->name('reseller.pembelian.update');
 });

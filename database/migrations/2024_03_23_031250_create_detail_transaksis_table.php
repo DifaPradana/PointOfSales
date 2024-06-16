@@ -13,13 +13,21 @@ return new class extends Migration
     {
         Schema::create('detail_transaksi', function (Blueprint $table) {
             $table->id("no_detail");
+
             $table->unsignedBigInteger("kode_transaksi")->nullable();
+            $table->foreign("kode_transaksi")->references("kode_transaksi")->on("transaksi")->onDelete("cascade");
+
             $table->unsignedBigInteger("kode_barang");
+            $table->foreign("kode_barang")->references("kode_barang")->on("barang")->onDelete("cascade");
+
+            $table->unsignedBigInteger("id_user");
+            $table->foreign("id_user")->references("id_user")->on("users")->onDelete("cascade");
+
             $table->integer("subtotal");
             $table->integer("harga_satuan");
             $table->integer("kuantitas")->default(1);
-            $table->foreign("kode_transaksi")->references("kode_transaksi")->on("transaksi")->onDelete("cascade");
-            $table->foreign("kode_barang")->references("kode_barang")->on("barang")->onDelete("cascade");
+
+
             $table->boolean("is_checkout")->default(false);
 
 

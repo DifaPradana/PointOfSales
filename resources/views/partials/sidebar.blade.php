@@ -58,6 +58,18 @@
                     <span>Pesanan</span></a>
             </li>
 
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('admin.kasir') }}">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>Kasir</span></a>
+            </li>
+
+            {{-- <li class="nav-item">
+                <a class="nav-link" href="{{ route('admin.pesanan') }}">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>Laporan Penjualan</span></a>
+            </li> --}}
+
             <!-- Nav Item - Utilities Collapse Menu -->
             {{-- <li class="nav-item">
                 <a class="nav-link" href="{{ route('reseller.dashboard') }}">
@@ -93,8 +105,8 @@
 
             </li> --}}
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
+            {{-- <!-- Divider -->
+            <hr class="sidebar-divider"> --}}
 
             <!-- Heading -->
             {{-- <div class="sidebar-heading">

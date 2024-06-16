@@ -59,6 +59,12 @@
                                                         <span class="badge badge-info">Menunggu Verifikasi</span>
                                                     @elseif($transaksi->status === 'Pesanan Diproses')
                                                         <span class="badge badge-primary">Pesanan Diproses</span>
+                                                    @elseif($transaksi->status === 'Pesanan Dibatalkan')
+                                                        <span class="badge badge-danger">Pesanan Dibatalkan</span>
+                                                    @elseif($transaksi->status === 'Pesanan Dikirim')
+                                                        <span class="badge badge-info">Pesanan Dikirim</span>
+                                                    @elseif($transaksi->status === 'Diterima')
+                                                        <span class="badge badge-success">Diterima</span>
                                                     @else
                                                         <span class="badge badge-secondary">Status Tidak Dikenal</span>
                                                     @endif
@@ -120,6 +126,16 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                    @elseif($transaksi->status === 'Pesanan Dikirim')
+                                                        <form
+                                                            action="{{ route('reseller.pembelian.update', $transaksi->kode_transaksi) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('PUT')
+                                                            <button type="submit" class="btn btn-primary block btn-sm">
+                                                                <i class="fa fa-check" aria-hidden="true"></i>
+                                                            </button>
+                                                        </form>
                                                     @endif
                                                 </td>
 

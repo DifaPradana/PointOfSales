@@ -27,7 +27,7 @@ class User extends Authenticatable
 
     public function getAuthIdentifierName()
     {
-        return 'nama_user'; // Sesuaikan dengan nama kolom yang digunakan sebagai identifier
+        return 'id_user'; // Sesuaikan dengan nama kolom yang digunakan sebagai identifier
     }
 
     public function getAuthIdentifier()
@@ -38,5 +38,15 @@ class User extends Authenticatable
     public function getAuthPassword()
     {
         return $this->password;
+    }
+
+    public function transaksi()
+    {
+        return $this->hasMany(transaksi::class, 'id_user', 'id_user');
+    }
+
+    public function detail_transaksi()
+    {
+        return $this->hasMany(detail_transaksi::class, 'id_user', 'id_user');
     }
 }

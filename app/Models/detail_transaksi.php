@@ -15,7 +15,7 @@ class detail_transaksi extends Model
 
     protected $guard = "no_detail";
 
-    protected $foreignKey = ["kode_transaksi", "kode_barang"];
+    protected $foreignKey = ["kode_transaksi", "kode_barang", "id_user"];
 
     protected $fillable = [
         'kode_transaksi',
@@ -23,7 +23,8 @@ class detail_transaksi extends Model
         'subtotal',
         'harga_satuan',
         'kuantitas',
-        'is_checkout'
+        'is_checkout',
+        'id_user'
     ];
 
     public function barang()
@@ -34,5 +35,10 @@ class detail_transaksi extends Model
     public function transaksi()
     {
         return $this->belongsTo(Transaksi::class, 'kode_transaksi', 'kode_transaksi');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user', 'id_user');
     }
 }
